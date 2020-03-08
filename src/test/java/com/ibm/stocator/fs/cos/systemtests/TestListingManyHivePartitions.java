@@ -26,7 +26,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
- * Test listing time for objects no created by spark
+ * Test listing time for datasets with many hive partitions
  */
 public class TestListingManyHivePartitions extends COSFileSystemBaseTest {
 
@@ -43,16 +43,20 @@ public class TestListingManyHivePartitions extends COSFileSystemBaseTest {
 
   private static void createTestData() throws IOException {
     // create files without `part` prefix
-    // create files deep hive style partitioing
     for (int i = 0; i < 20; i++) {
       createFile(new Path(sBaseURI + "/testListingManyHivePartitions/a=" + i
               + "/f" + i), sData);
     }
+    // create _SUCCESS file
+    createEmptyFile(new Path(sBaseURI + "/testListingManyHivePartitions/_SUCCESS"));
+
     // create files with `part` prefix
     for (int i = 0; i < 20; i++) {
       createFile(new Path(sBaseURI + "/testListingManyHivePartitionsPart/a=" + i
               + "/part-" + i), sData);
     }
+    // create _SUCCESS file
+    createEmptyFile(new Path(sBaseURI + "/testListingManyHivePartitionsPart/_SUCCESS"));
   }
 
   @Test
